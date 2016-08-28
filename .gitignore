@@ -49,3 +49,5 @@ json/
 .DS_Store
 .editorconfig
 .gitattributes
+
+run.js
