@@ -22,6 +22,9 @@ import reducers from './pages/reducers'
 import router from './core/router';
 import history from './core/history';
 
+import AuthService from './core/AuthService'
+const auth = new AuthService('A6kmwBY4n9oESHhZeMooq2Tyofq9xsW3', 'alxyee1.auth0.com');
+
 let routes = require('./routes.json'); // Loaded with utils/routes-loader.js
 const container = document.getElementById('container');
 

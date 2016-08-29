@@ -155,7 +155,7 @@ const config = {
 
   // The list of plugins for PostCSS
   // https://github.com/postcss/postcss
-  
+
   postcss(bundler) {
     return [
       // Transfer @import rule by inlining content, e.g. @import 'normalize.css'
