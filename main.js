@@ -19,44 +19,48 @@ import {Provider} from 'react-redux';
 
 import {configureStore} from './core/configure-store'
 import reducers from './pages/reducers'
-import router from './core/router';
-import history from './core/history';
 
 import AuthService from './core/AuthService'
 const auth = new AuthService('A6kmwBY4n9oESHhZeMooq2Tyofq9xsW3', 'alxyee1.auth0.com');
 
-let routes = require('./routes.json'); // Loaded with utils/routes-loader.js
-const container = document.getElementById('container');
+
+import {Router, Route, Link, IndexRoute, IndexRedirect, browserHistory} from 'react-router'
+import {syncHistoryWithStore, routerReducer} from 'react-router-redux'
+import {combineReducers} from 'redux'
 
 
-const store = configureStore({}, reducers);
-
-function renderComponent(component) {
-  ReactDOM.render(<Provider store={store}>{component}</Provider>, container);
-}
-
-// Find and render a web page matching the current URL path,
-// if such page is not found then render an error page (see routes.json, core/router.js)
-function render(location) {
-  router.resolve(routes, location)
-    .then(renderComponent)
-    .catch(error => router.resolve(routes, {...location, error}).then(renderComponent));
-}
+const store = configureStore({}, combineReducers({reducers, routing:routerReducer}));
 
 // Handle client-side navigation by using HTML5 History API
 // For more information visit https://github.com/ReactJSTraining/history/tree/master/docs#readme
-history.listen(render);
-render(history.getCurrentLocation());
+const history = syncHistoryWithStore(browserHistory, store)
+history.listen(location=>console.log(location))
+
+// onEnter callback to validate authentication in private routes
+const requireAuth = (nextState, replace) => {
+    if (!auth.loggedIn()) {
+        replace({ pathname: '/login' })
+    }
+}
+
 
 // Eliminates the 300ms delay between a physical tap
 // and the firing of a click event on mobile browsers
 // https://github.com/ftlabs/fastclick
 FastClick.attach(document.body);
 
-// Enable Hot Module Replacement (HMR)
-if (module.hot) {
-  module.hot.accept('./routes.json', () => {
-    routes = require('./routes.json'); // eslint-disable-line global-require
-    render(history.getCurrentLocation());
-  });
-}
+import Home from './pages/home'
+import Login from './pages/login'
+
+ReactDOM.render(
+    <Provider store={store}>
+        <Router history={history}>
+            <Route path="/" component={Home} auth = {auth}>
+                <IndexRedirect to="/home" />
+                <Route path="home" component={Home} onEnter={requireAuth} />
+                <Route path="login" component={Login} />
+            </Route>
+        </Router>
+    </Provider>,
+    document.getElementById('container')
+)

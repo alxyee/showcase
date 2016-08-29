@@ -23,6 +23,7 @@ class AboutPage extends React.Component {
     return (
       <Layout className={s.content}>
         <h1>{title}</h1>
+          ABOUT
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </Layout>
     );
