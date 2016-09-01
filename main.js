@@ -24,15 +24,9 @@ import history from './core/history';
 
 import AuthService from './core/AuthService'
 const auth = new AuthService('A6kmwBY4n9oESHhZeMooq2Tyofq9xsW3', 'alxyee1.auth0.com');
-// onEnter callback to validate authentication in private routes
-const requireAuth = (nextState, replace) => {
-    if (!auth.loggedIn()) {
-        replace({pathname: '/login'})
-    }
-}
 
 let routes = require('./routes.json'); // Loaded with utils/routes-loader.js
-routes.map(route=>route['auth']=auth)
+routes.map(route=>route['auth'] = auth)
 
 const container = document.getElementById('container');
 
@@ -40,13 +34,21 @@ const container = document.getElementById('container');
 const store = configureStore({}, reducers);
 
 function renderComponent(component) {
-    ReactDOM.render(<Provider store={store} auth={auth}>{component}</Provider>, container);
+    ReactDOM.render(<Provider store={store}>{component}</Provider>, container);
 }
 
 // Find and render a web page matching the current URL path,
 // if such page is not found then render an error page (see routes.json, core/router.js)
 function render(location) {
-    router.resolve(routes, location)
+    console.log(location, auth.loggedIn())
+    const isSecuredPath = location.pathname.indexOf("/secure") !== -1
+
+    if (!auth.loggedIn() && isSecuredPath) {
+        location.pathname = "/login"
+    }
+
+    router
+        .resolve(routes, location)
         .then(renderComponent)
         .catch(error => router.resolve(routes, {...location, error}).then(renderComponent));
 }
@@ -67,5 +69,5 @@ if (module.hot) {
         store.replaceReducer(reducers.default);
         return true;
     });
-    
+
 }

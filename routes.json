@@ -12,13 +12,12 @@
     "page": "./pages/login"
   },
   {
+    "path": "/secure/home",
+    "page": "./pages/secure/home"
+  },
+  {
     "path": "/error",
     "page": "./pages/error",
     "chunk": "main"
-  },
-
-  {
-    "path": "/tasks/:status(pending|completed)?",
-    "page": "./pages/home"
   }
 ]

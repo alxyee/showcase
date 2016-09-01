@@ -17,7 +17,7 @@ export class Login extends React.Component {
         const { auth } = this.props.route
         return (
             <div className={styles.root}>
-                Login Pagezjkdfxx
+                Login Page
                 <h2>Login</h2>
                 <ButtonToolbar className={styles.toolbar}>
                     <Button bsStyle="primary" onClick={auth.login.bind(this)}>Login</Button>
