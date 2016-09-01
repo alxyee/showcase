@@ -32,6 +32,7 @@ function escape(text) {
  *     load: function () { return new Promise(resolve => require(['./pages/about'], resolve)); }
  *   }
  */
+
 module.exports = function routesLoader(source) {
   this.cacheable();
 
