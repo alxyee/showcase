@@ -22,7 +22,6 @@ import reducers from './pages/reducers'
 import router from './core/router';
 import history from './core/history';
 
-import axios from 'axios'
 import $ from 'jquery'
 
 import AuthService from './core/AuthService'
@@ -67,24 +66,12 @@ function render(location) {
     if (location.hash !== "") {
         // const access_token = getParamFromHash('access_token', location.hash)
         // console.log('access_token', access_token)
-        const access_token = "enLxZvbEgKdnAijog5pIr1DXc670mBgN"
-        axios({
-            method: 'post',
-            headers:{
-                Authorization: `Bearer ${access_token}`
-            },
-            url: 'https://api.box.com/2.0/users',
-            data: {"name": "Ned Stark", "is_platform_access_only": true}
-        }).then(response=>{console.log(response)})
-
-        ajaxPost('https://api.box.com/2.0/users',  {"name": "Ned Stark", "is_platform_access_only": true})
-            .then(response=>console.log("AJAX POST", response))
     }
-    // const isSecuredPath = location.pathname.indexOf("/secure") !== -1
+    const isSecuredPath = location.pathname.indexOf("/secure") !== -1
 
-    // if (!auth.loggedIn() && isSecuredPath) {
-    //     location.pathname = "/login"
-    // }
+    if (!auth.loggedIn() && isSecuredPath) {
+        location.pathname = "/login"
+    }
 
     router
         .resolve(routes, location)
