@@ -87,6 +87,7 @@ export default class AuthService extends EventEmitter {
             .then(response => response.json())
             .then(newProfile => this.setProfile(newProfile))
     }
+    
 
     setToken(idToken) {
         // Saves user token to localStorage

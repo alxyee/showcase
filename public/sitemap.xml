@@ -4,9 +4,18 @@
     <loc>https://rsb.kriasoft.com/</loc>
   </url>
   <url>
+    <loc>https://rsb.kriasoft.com/about</loc>
+  </url>
+  <url>
+    <loc>https://rsb.kriasoft.com/login</loc>
+  </url>
+  <url>
+    <loc>https://rsb.kriasoft.com/secure/home</loc>
+  </url>
+  <url>
     <loc>https://rsb.kriasoft.com/error</loc>
   </url>
   <url>
-    <loc>https://rsb.kriasoft.com/about</loc>
+    <loc>https://rsb.kriasoft.com/*</loc>
   </url>
 </urlset>
